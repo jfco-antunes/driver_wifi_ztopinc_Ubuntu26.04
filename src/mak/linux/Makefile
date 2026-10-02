@@ -39,19 +39,20 @@ ifeq ($(CONFIG_ZT9101XV30_SUPPORT), y)
 EXTRA_CFLAGS += -DCONFIG_ZT9101XV30_SUPPORT
 endif
 
-EXTRA_CFLAGS += $(USER_EXTRA_CFLAGS)
-EXTRA_CFLAGS += -O1
-EXTRA_CFLAGS += -I$(WDRV_DIR)/os/
-EXTRA_CFLAGS += -I$(WDRV_DIR)/os/linux
-EXTRA_CFLAGS += -I$(WDRV_DIR)/os/linux/os_porting
-EXTRA_CFLAGS += -I$(WDRV_DIR)/os/linux/hif
-EXTRA_CFLAGS += -I$(WDRV_DIR)/os/linux/netdev
-EXTRA_CFLAGS += -I$(WDRV_DIR)/os/linux/cfg80211
-EXTRA_CFLAGS += -I$(WDRV_DIR)/os/linux/iw
-EXTRA_CFLAGS += -I$(WDRV_DIR)/os/linux/pwr
-EXTRA_CFLAGS += -I$(WDRV_DIR)/nic
-EXTRA_CFLAGS += -I$(WDRV_DIR)/nic/utility
-EXTRA_CFLAGS += -I$(WDRV_DIR)/nic/p2p
+ccflags-y += $(USER_EXTRA_CFLAGS)
+ccflags-y += -O1
+ccflags-y += -I$(src)/os
+ccflags-y += -I$(src)/os/linux
+ccflags-y += -I$(src)/os/linux/os_porting
+ccflags-y += -I$(src)/os/linux/hif
+ccflags-y += -I$(src)/os/linux/netdev
+ccflags-y += -I$(src)/os/linux/cfg80211
+ccflags-y += -I$(src)/os/linux/iw
+ccflags-y += -I$(src)/os/linux/pwr
+ccflags-y += -I$(src)/nic
+ccflags-y += -I$(src)/nic/utility
+ccflags-y += -I$(src)/nic/p2p 
+
 ifndef __linux__
 EXTRA_CFLAGS += -D__linux__
 endif
@@ -130,6 +131,7 @@ endif
 
 EXTRA_LDFLAGS += --strip-debug
 
+ccflags-y += $(EXTRA_CFLAGS)
 ########################## Features ###########################
 
 ifneq ($(KERNELRELEASE),)

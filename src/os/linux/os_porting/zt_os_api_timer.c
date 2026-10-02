@@ -23,7 +23,17 @@
 
 /* function declaration */
 
-
+/*
+ * ... (mantém o cabeçalho original e licença intactos) ...
+ * Original Author: houchuang
+ * Copyright (c) 2021 Shandong ZTop Microelectronics Co., Ltd
+ *
+ * Modifications:
+ * Copyright (c) 2026 João Fco. O Antunes / jfco.antunes@gmail.com
+ * - Ported and fixed for Linux Kernel 6.8+ / 7.0+ compatibility
+ *   (timer_delete, cfg80211 link_id APIs, and struct usb_driver shutdown changes).
+ */
+ 
 zt_inline zt_u64 zt_os_api_timestamp(void)
 {
     return jiffies;
@@ -60,7 +70,11 @@ zt_inline zt_s32 zt_os_api_timer_set(zt_os_api_timer_t *ptimer, zt_u32 intv_ms)
 
 zt_inline zt_s32 zt_os_api_timer_unreg(zt_os_api_timer_t *ptimer)
 {
+    #if (LINUX_VERSION_CODE >= KERNEL_VERSION(6, 15, 0))
+    timer_delete(ptimer);
+#else
     del_timer(ptimer);
+#endif
     return 0;
 }
 
